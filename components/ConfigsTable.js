@@ -1,7 +1,7 @@
 import {
   updateConfigValueByAppAndKey,
   deleteConfigByAppAndKey,
-  createConfigValue,
+  upsertConfigValue,
 } from "../helpers/configHelper";
 
 import { RiSaveFill, RiAddBoxFill, RiDeleteBin7Fill } from "react-icons/ri";
@@ -24,7 +24,7 @@ export default function ConfigsTable({ configs }) {
     const value = e.target.configValue.value;
 
     if (submitForm == "update") {
-      await updateConfigValueByAppAndKey(app, key, value);
+      await upsertConfigValue(app, key, value);
     } else if (submitForm == "delete") {
       await deleteConfigByAppAndKey(app, key);
       router.reload(window.location.pathname);
@@ -107,7 +107,7 @@ function CreateConfig() {
     e.preventDefault();
     setLoading(true);
 
-    await createConfigValue(configApp, configKey, configValue);
+    await upsertConfigValue(configApp, configKey, configValue);
     setLoading(false);
 
     toast.success("created!");
